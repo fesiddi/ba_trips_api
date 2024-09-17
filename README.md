@@ -64,7 +64,7 @@ JWT_SECREY=your_jwt_secret
 1. Run the tests:
 
 ```sh
-npm test
+npm run test
 ```
 
 ## Usage
@@ -72,7 +72,7 @@ npm test
 1. Build and start the app:
 
 ```sh
-npm build
+npm run build
 ```
 
 2. The API will be available at http://localhost:3000.
