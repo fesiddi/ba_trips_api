@@ -80,21 +80,21 @@ Access the Swagger UI at http://localhost:3000/api-docs to view the API document
 
 1. Before starting to use the application a new user need to be registered with the following endpoint:
 
-- POST /api/auth/register: Register a new user
+- `POST /api/auth/register`: Register a new user
 
 2. Then we have to login in order to obtain the bearer token that we will use for the API endpoints:
 
-- POST /api/auth/login: Login with the created user
+- `POST /api/auth/login`: Login with the created user
 
 ## API Endpoints
 
-- GET /api/trips: List all the user saved trips
+- `GET /api/trips`: List all the user saved trips
 
-- POST /api/trips: Save a trip
+- `POST /api/trips`: Save a trip
 
-- GET /api/trips/search: Search trips using 3rd party API
+- `GET /api/trips/search`: Search trips using 3rd party API
 
-- DELETE /api/trips/:id: Delete a trip
+- `DELETE /api/trips/:id`: Delete a trip
 
 
 ## License
