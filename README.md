@@ -81,6 +81,15 @@ npm run build
 
 Access the Swagger UI at http://localhost:3000/api-docs to view the API documentation and try the API.
 
+## Postman Collection
+
+Import the Postman collection:
+
+1. Open Postman.
+2. Click on the "Import" button.
+3. Select the postman/ba_trips_api.postman_collection.json file from the project directory.
+4. Use the imported collection to test the API endpoints.
+
 ## Authentication Endpoints
 
 1. Before starting to use the application a new user need to be registered with the following endpoint:
