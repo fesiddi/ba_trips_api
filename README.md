@@ -1,6 +1,7 @@
 # Trip Manager API
 
 ## Description
+
 This project provides a Trip Manager API that allows users to save, list, and delete trips. It also integrates with a 3rd party API to display relevant results sorted accordingly.
 
 - **Framework**: Express.js for building the RESTful API.
@@ -30,21 +31,25 @@ This project provides a Trip Manager API that allows users to save, list, and de
 ## Installation
 
 1. Clone the repository:
+
 ```sh
 git clone git@github.com:fesiddi/ba_trips_api.git
 ```
 
 2. Navigate to the project directory:
+
 ```sh
 cd ba_trips_api
 ```
 
 3. Install dependencies:
+
 ```sh
 npm install
 ```
 
 4. Create a .env file in the root directory and add the following:
+
 ```sh
 PORT=3000
 DB_URI=mongodb://localhost:27017/trip_manager
@@ -57,6 +62,7 @@ JWT_SECREY=your_jwt_secret
 ## Testing
 
 1. Run the tests:
+
 ```sh
 npm test
 ```
@@ -64,17 +70,16 @@ npm test
 ## Usage
 
 1. Build and start the app:
+
 ```sh
 npm build
 ```
 
 2. The API will be available at http://localhost:3000.
 
-
 ## Swagger Documentation
 
 Access the Swagger UI at http://localhost:3000/api-docs to view the API documentation and try the API.
-
 
 ## Authentication Endpoints
 
@@ -95,7 +100,6 @@ Access the Swagger UI at http://localhost:3000/api-docs to view the API document
 - `GET /api/trips/search`: Search trips using 3rd party API
 
 - `DELETE /api/trips/:id`: Delete a trip
-
 
 ## License
 

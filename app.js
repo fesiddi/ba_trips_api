@@ -16,12 +16,12 @@ dotenv.config();
 const app = express();
 
 const swaggerDocument = JSON.parse(
-    fs.readFileSync(path.join(process.cwd(), 'swagger.json'), 'utf-8')
+  fs.readFileSync(path.join(process.cwd(), 'swagger.json'), 'utf-8'),
 );
 
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
 });
 
 // Security middleware
@@ -35,8 +35,8 @@ app.use(limiter);
 
 // Log all requests
 app.use((req, res, next) => {
-    logger.info(`${req.method} ${req.url}`);
-    next();
+  logger.info(`${req.method} ${req.url}`);
+  next();
 });
 
 // Routes

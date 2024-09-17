@@ -7,7 +7,7 @@ connectDB();
 
 // once connected to the db we start the server
 mongoose.connection.once('open', () => {
-    app.listen(config.PORT, () =>
-        console.log(`Trip Manager API listening on port ${config.PORT}!`)
-    );
+  app.listen(config.PORT, () =>
+    console.log(`Trip Manager API listening on port ${config.PORT}!`),
+  );
 });

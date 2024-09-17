@@ -1,397 +1,397 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Trip Manager API",
-        "version": "1.0.0",
-        "description": "API documentation for the Trip Manager application"
-    },
-    "tags": [
-        {
-            "name": "Trips",
-            "description": "The trips managing API"
-        }
-    ],
-    "components": {
-        "securitySchemes": {
-            "bearerToken": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        },
-        "schemas": {
-            "Trip": {
-                "type": "object",
-                "required": ["id", "origin", "destination", "cost", "duration"],
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "The 3rd party API id of the trip"
-                    },
-                    "origin": {
-                        "type": "string",
-                        "description": "The origin of the trip"
-                    },
-                    "destination": {
-                        "type": "string",
-                        "description": "The destination of the trip"
-                    },
-                    "cost": {
-                        "type": "number",
-                        "description": "The cost of the trip"
-                    },
-                    "duration": {
-                        "type": "number",
-                        "description": "The duration of the trip"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "The type of the trip"
-                    },
-                    "display_name": {
-                        "type": "string",
-                        "description": "The display name of the trip"
-                    }
-                }
-            },
-            "User": {
-                "type": "object",
-                "required": ["username", "password", "passwordConf", "email"],
-                "properties": {
-                    "username": {
-                        "type": "string",
-                        "description": "The username of the user"
-                    },
-                    "password": {
-                        "type": "string",
-                        "description": "The password of the user"
-                    },
-                    "passwordConf": {
-                        "type": "string",
-                        "description": "The password confirmation of the user"
-                    },
-                    "email": {
-                        "type": "string",
-                        "description": "The email of the user"
-                    }
-                }
-            }
-        }
-    },
-    "paths": {
-        "/api/trips": {
-            "post": {
-                "summary": "Save a new trip",
-                "tags": ["Trips"],
-                "security": [
-                    {
-                        "bearerToken": []
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Trip"
-                            },
-                            "examples": {
-                                "trip": {
-                                    "summary": "A sample trip",
-                                    "value": {
-                                        "origin": "LAX",
-                                        "destination": "JFK",
-                                        "cost": 200,
-                                        "duration": 300,
-                                        "type": "flight",
-                                        "display_name": "Flight from LAX to JFK by flight",
-                                        "id": "963cb400-1456-4bb0-aa44-8165b7b359e9"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "The trip was successfully created",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "trip": {
-                                        "summary": "A sample trip",
-                                        "value": {
-                                            "message": "Trip saved successfully",
-                                            "trip": {
-                                                "origin": "LAX",
-                                                "destination": "JFK",
-                                                "cost": 200,
-                                                "duration": 300,
-                                                "type": "flight",
-                                                "display_name": "Flight from LAX to JFK by flight",
-                                                "id": "963cb400-1456-4bb0-aa44-8165b7b359e9"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "409": {
-                        "description": "Conflict error",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "error": {
-                                        "summary": "Conflict error",
-                                        "value": {
-                                            "error": "Error saving trip, trip already exists"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server error"
-                    }
-                }
-            },
-            "get": {
-                "summary": "Returns the list of all the trips",
-                "tags": ["Trips"],
-                "security": [
-                    {
-                        "bearerToken": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "The list of the trips",
-                        "content": {
-                            "application/json": {
-                                "example": [
-                                    {
-                                        "id": "963cb400-1456-4bb0-aa44-8165b7b359e9",
-                                        "origin": "LAX",
-                                        "destination": "JFK",
-                                        "cost": 390,
-                                        "duration": 11
-                                    },
-                                    {
-                                        "id": "963cb400-3212-4bb0-aa44-8165b7b345t4",
-                                        "origin": "LAX",
-                                        "destination": "JFK",
-                                        "cost": 280,
-                                        "duration": 18
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "500": {
-                        "description": "Internal Server error"
-                    }
-                }
-            }
-        },
-        "/api/trips/{id}": {
-            "delete": {
-                "summary": "Delete a trip with a specific ID",
-                "tags": ["Trips"],
-                "security": [
-                    {
-                        "bearerToken": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "The ID of the trip to delete",
-                        "example": "963cb400-1456-4bb0-aa44-8165b7b359e9"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "The trip was successfully deleted"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "404": {
-                        "description": "Trip not found"
-                    },
-                    "500": {
-                        "description": "Server error"
-                    }
-                }
-            }
-        },
-        "/api/trips/search": {
-            "get": {
-                "summary": "Search for trips",
-                "tags": ["Trips"],
-                "security": [
-                    {
-                        "bearerToken": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "origin",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "The origin of the trip",
-                        "example": "LAX"
-                    },
-                    {
-                        "name": "destination",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "The destination of the trip",
-                        "example": "JFK"
-                    },
-                    {
-                        "name": "sort_by",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "The field to sort by",
-                        "example": "fastest"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "The list of the trips sorted by the specified field",
-                        "content": {
-                            "application/json": {
-                                "example": [
-                                    {
-                                        "id": "963cb400-1456-4bb0-aa44-8165b7b359e9",
-                                        "origin": "LAX",
-                                        "destination": "JFK",
-                                        "cost": 390,
-                                        "duration": 11
-                                    },
-                                    {
-                                        "id": "963cb400-3212-4bb0-aa44-8165b7b345t4",
-                                        "origin": "LAX",
-                                        "destination": "JFK",
-                                        "cost": 280,
-                                        "duration": 18
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid input"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "500": {
-                        "description": "Server error"
-                    }
-                }
-            }
-        },
-        "/api/auth/register": {
-            "post": {
-                "summary": "Register a new user",
-                "tags": ["Auth"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            },
-                            "example": {
-                                "username": "testuser",
-                                "password": "testpassword",
-                                "passwordConf": "testpassword",
-                                "email": "testuser@email.com"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "The user was successfully registered",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "User testuser created, please login in order to obtain a token"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid input"
-                    },
-                    "500": {
-                        "description": "Server error"
-                    }
-                }
-            }
-        },
-        "/api/auth/login": {
-            "post": {
-                "summary": "Login a user",
-                "tags": ["Auth"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "example": {
-                                "username": "testuser",
-                                "password": "testpassword"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "The user was successfully logged in",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "token": "exampleToken...InR5cCI6IkpXVCJ9"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid credentials"
-                    },
-                    "500": {
-                        "description": "Server error"
-                    }
-                }
-            }
-        }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Trip Manager API",
+    "version": "1.0.0",
+    "description": "API documentation for the Trip Manager application"
+  },
+  "tags": [
+    {
+      "name": "Trips",
+      "description": "The trips managing API"
     }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Trip": {
+        "type": "object",
+        "required": ["id", "origin", "destination", "cost", "duration"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The 3rd party API id of the trip"
+          },
+          "origin": {
+            "type": "string",
+            "description": "The origin of the trip"
+          },
+          "destination": {
+            "type": "string",
+            "description": "The destination of the trip"
+          },
+          "cost": {
+            "type": "number",
+            "description": "The cost of the trip"
+          },
+          "duration": {
+            "type": "number",
+            "description": "The duration of the trip"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the trip"
+          },
+          "display_name": {
+            "type": "string",
+            "description": "The display name of the trip"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": ["username", "password", "passwordConf", "email"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "The username of the user"
+          },
+          "password": {
+            "type": "string",
+            "description": "The password of the user"
+          },
+          "passwordConf": {
+            "type": "string",
+            "description": "The password confirmation of the user"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the user"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/trips": {
+      "post": {
+        "summary": "Save a new trip",
+        "tags": ["Trips"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Trip"
+              },
+              "examples": {
+                "trip": {
+                  "summary": "A sample trip",
+                  "value": {
+                    "origin": "LAX",
+                    "destination": "JFK",
+                    "cost": 200,
+                    "duration": 300,
+                    "type": "flight",
+                    "display_name": "Flight from LAX to JFK by flight",
+                    "id": "963cb400-1456-4bb0-aa44-8165b7b359e9"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The trip was successfully created",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "trip": {
+                    "summary": "A sample trip",
+                    "value": {
+                      "message": "Trip saved successfully",
+                      "trip": {
+                        "origin": "LAX",
+                        "destination": "JFK",
+                        "cost": 200,
+                        "duration": 300,
+                        "type": "flight",
+                        "display_name": "Flight from LAX to JFK by flight",
+                        "id": "963cb400-1456-4bb0-aa44-8165b7b359e9"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "409": {
+            "description": "Conflict error",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "summary": "Conflict error",
+                    "value": {
+                      "error": "Error saving trip, trip already exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error"
+          }
+        }
+      },
+      "get": {
+        "summary": "Returns the list of all the trips",
+        "tags": ["Trips"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of the trips",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "963cb400-1456-4bb0-aa44-8165b7b359e9",
+                    "origin": "LAX",
+                    "destination": "JFK",
+                    "cost": 390,
+                    "duration": 11
+                  },
+                  {
+                    "id": "963cb400-3212-4bb0-aa44-8165b7b345t4",
+                    "origin": "LAX",
+                    "destination": "JFK",
+                    "cost": 280,
+                    "duration": 18
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server error"
+          }
+        }
+      }
+    },
+    "/api/trips/{id}": {
+      "delete": {
+        "summary": "Delete a trip with a specific ID",
+        "tags": ["Trips"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the trip to delete",
+            "example": "963cb400-1456-4bb0-aa44-8165b7b359e9"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The trip was successfully deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Trip not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/trips/search": {
+      "get": {
+        "summary": "Search for trips",
+        "tags": ["Trips"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "origin",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The origin of the trip",
+            "example": "LAX"
+          },
+          {
+            "name": "destination",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The destination of the trip",
+            "example": "JFK"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The field to sort by",
+            "example": "fastest"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of the trips sorted by the specified field",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "963cb400-1456-4bb0-aa44-8165b7b359e9",
+                    "origin": "LAX",
+                    "destination": "JFK",
+                    "cost": 390,
+                    "duration": 11
+                  },
+                  {
+                    "id": "963cb400-3212-4bb0-aa44-8165b7b345t4",
+                    "origin": "LAX",
+                    "destination": "JFK",
+                    "cost": 280,
+                    "duration": 18
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "username": "testuser",
+                "password": "testpassword",
+                "passwordConf": "testpassword",
+                "email": "testuser@email.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The user was successfully registered",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "User testuser created, please login in order to obtain a token"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login a user",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "username": "testuser",
+                "password": "testpassword"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The user was successfully logged in",
+            "content": {
+              "application/json": {
+                "example": {
+                  "token": "exampleToken...InR5cCI6IkpXVCJ9"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  }
 }

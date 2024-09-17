@@ -2,20 +2,19 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
-    PORT: ${{secrets.PORT}}
-    DB_URI: ${{secrets.DB_URI}}
-    PROD_DB_URI: ${{secrets.PROD_DB_URI}}
-    API_KEY: ${{secrets.API_KEY}}
-    API_ENDPOINT: ${{secrets.API_ENDPOINT}}
-    JWT_SECRET: ${{secrets.JWT_SECRET}}
+  PORT: ${{secrets.PORT}}
+  DB_URI: ${{secrets.DB_URI}}
+  PROD_DB_URI: ${{secrets.PROD_DB_URI}}
+  API_KEY: ${{secrets.API_KEY}}
+  API_ENDPOINT: ${{secrets.API_ENDPOINT}}
+  JWT_SECRET: ${{secrets.JWT_SECRET}}
 jobs:
   build:
-
     runs-on: ubuntu-22.04
 
     strategy:
@@ -23,12 +22,15 @@ jobs:
         node-version: [20.x]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run test
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - name: Run Prettier
+        run: npm run format
+      - name: Run Tests
+        run: npm run test
