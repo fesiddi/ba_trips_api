@@ -9,7 +9,7 @@
         "build": "docker compose up -d --build",
         "start:db": "docker compose up -d --build mongo",
         "dev": "cross-env NODE_ENV=development nodemon server.js",
-        "test": "mocha tests/**/*.js",
+        "test": "cross-env NODE_ENV=test mocha tests/**/*.js",
         "stop": "docker compose down"
     },
     "repository": {
