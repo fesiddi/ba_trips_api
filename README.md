@@ -56,7 +56,7 @@ DB_URI=mongodb://localhost:27017/trip_manager
 PROD_DB_URI=mongodb://mongo:27017/trip_manager
 API_ENDPOINT=the_external_api_endpoint_previously_provided
 API_KEY=the_api_key_previously_provided
-JWT_SECREY=your_jwt_secret
+JWT_SECRET=your_jwt_secret
 ```
 
 ## Testing
